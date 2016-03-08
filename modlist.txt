@@ -1,0 +1,81 @@
+post installs:
+-------------------
+
+avahi-daemon
+dnsmasq
+nginx-light
+python-software-properties
+python-configobj
+python-jinja2
+python-serial
+picocom
+automake
+byacc
+bison
+flex
+v4l-utils
+device-tree-compiler
+
+#nodesource
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+
+nodejs
+python-dbus
+
+# Add openrov repos
+echo "deb http://deb-repo.openrov.com jessie unstable" | sudo tee --append /etc/apt/sources.list
+wget -O - -q http://deb-repo.openrov.com/build.openrov.com.gpg.key | sudo apt-key add -
+
+openrov-mjpeg-streamer
+openrov-ino
+openrov-avrdude
+
+# Enabling SPI
+# In /DietPi/config.txt add:
+dtparam=spi=on
+
+Added rov user with same password as bbb image, hostname also same
+Made rov a sudoer
+
+Ran postimage.sh
+make 
+Set ttyAMA0 to 115200
+stty -F /dev/ttyAMA0 115200
+
+install gcc-arm-none-eabi
+
+For openocd:
+--------------
+installed libtool
+installed libusb-1.0.0
+
+Need to figure out cloud9
+Wetty doesnt seem to be working
+
+openocd seems to be missing its config path created by installer
+openocd also didnt have the checkout command to earlier working commit from back when for the BBB. might need to re-add
+rebuilt openocd on target
+
+Start:
+root@openrov:~# df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       3.6G  921M  2.6G  27% /
+devtmpfs        483M     0  483M   0% /dev
+tmpfs           487M     0  487M   0% /dev/shm
+tmpfs           487M  6.4M  481M   2% /run
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           487M     0  487M   0% /sys/fs/cgroup
+tmpfs            10M  1.1M  9.0M  11% /DietPi
+tmpfs           487M     0  487M   0% /tmp
+/dev/mmcblk0p1   60M   22M   39M  36% /boot
+
+
+Useful!
+-----------
+gpio readall shows all gpio usage and pinmuxing beautifully
+gpio -g mode <pin> in/out/pwm/clock/up/down/tri
+gpio write <pin> 0/1
+gpio pwm <pin> 0-1023
+gpio read <pin>
+
+must modify /DietPi/config.txt, not /boot/config.txt!
